@@ -1,0 +1,81 @@
+﻿/* Образец создания растягивающихся по вертикали div c учётом отступов: 
+ * Изначально планировались колонки 200px+центр+150px
+ * Затем прибавляли отступы (по 10 срава и слева в боковых, по 20 - в центральной)
+ * Соответственно, идут расчёты и изменение значений ширины колонок и отступов
+ 
+ * В этом файле стилей (style2) для index2 (не отл. от index1) задана высота шапки (100px)
+ * Чтобы левая колонка наползала на хедер весь container подтянут с наползанием на -100,
+ * за счет margin-top:-100px; а для средней и правой колонок сделан фикс margin-top:100px; 
+*/
+
+
+/* просто для удобства */
+* {margin: 0;}
+h1, p {
+  text-align: center;
+  padding: 10px;
+}
+
+/* если не ввести этот хак, IE6 выкинет левый столбик за экран */
+* html #left {
+  left: 150px;  /* RC fullwidth */
+}
+/* если не ограничить сжатие body, то при уменьшении окна всё разлетится */
+body {
+  min-width: 630px;  /* 2x LC fullwidth ((200+10)x2+) + CC padding  + RC width */
+}
+#header {  
+  background:#ccc;
+  height:100px;
+}
+#container {
+  padding-left: 200px;   /* LC width */
+  padding-right: 190px;  /* RC fullwidth (150) + CC padding */
+  margin-top: -100px;
+  overflow: hidden; /* добавление этого скрывает растягивание ниже на X (20000px+10) */
+}
+#container .column {
+  float: left;
+  padding-bottom: 20010px;  /* X + padding-bottom */
+  margin-bottom: -20000px;  /* X */
+}
+
+#center {
+  width: 100%;
+  background:#cf0;
+  padding: 10px 20px;    /* CC padding */
+  margin-top:100px;
+}
+/* Если не делать relative, то у меня не работало */
+#left {
+  position: relative;
+  width: 180px;  /* планируемая LC width (200) - padding*/
+  padding: 0 10px;
+  background:#39f;
+  margin-left:-100%; 
+  right:240px; /* LC fullwidth + CC padding */
+
+}
+#right {
+  width: 130px;  /* планируемая RC width (150) - padding */
+  padding: 0 10px; 
+  background:red;
+  margin-right:-190px ; /* RC fullwidth + CC padding */
+  margin-top:100px;
+}
+#footer {
+  clear: both;
+  background:#ccc;
+  position: relative;
+}
+/* не понял, зачем надо это: */
+* html body {
+  overflow: hidden;
+}
+* html #footer-wrapper {
+  float: left;
+  position: relative;
+  width: 100%;
+  padding-bottom: 10010px;
+  margin-bottom: -10000px;
+  background: #fff;         /* Same as body background */
